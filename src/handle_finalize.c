@@ -1,4 +1,4 @@
-#include "template_plugin.h"
+#include "swell_plugin.h"
 
 void handle_finalize(ethPluginFinalize_t *msg) {
     context_t *context = (context_t *) msg->pluginContext;

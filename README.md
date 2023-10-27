@@ -1,21 +1,21 @@
-# Ledger Template Plugin
+# Ledger Plugin Swell
 
-This is a plugin for the Ethereum application which helps parsing and displaying relevant information when signing a template smart contract.
+This is a plugin for the Ethereum application which helps parsing and displaying relevant information when signing a Swell smart contract.
 
 ## Prerequisite
 
 Clone the plugin to a new folder.
 
 ```shell
-git clone https://github.com/Zondax/ledger-plugin-template.git
+git clone https://github.com/libertify/ledger-plugin-lens.git
 ```
 
-Then in the same folder clone two more repositories, which is the plugin-tools and app-ethereum.
+Then in the same folder clone the app-ethereum.
 
 ```shell
-git clone https://github.com/LedgerHQ/plugin-tools.git                          #plugin-tools
 git clone --recurse-submodules https://github.com/LedgerHQ/app-ethereum.git     #app-ethereum
 ```
+
 ## Documentation
 
 Need more information about the interface, the architecture, or general stuff about ethereum plugins? You can find more about them in the [ethereum-app documentation](https://github.com/LedgerHQ/app-ethereum/blob/master/doc/ethapp_plugins.adoc).
@@ -42,22 +42,21 @@ Smart contracts covered by this plugin are:
 
 ## Build
 
-Go to the plugin-tools folder and run the "./start" script.
+To build the plugin, go to your folder with Ethereum app and plugin. Open a new terminal window and run:
 ```shell
-cd plugin-tools  # go to plugin folder
-./start.sh       # run the script start.sh
+sudo docker run --rm -ti -v "$(realpath .):/app" --user $(id -u $USER):$(id -g $USER) ghcr.io/ledgerhq/ledger-app-builder/ledger-app-dev-tools:latest
 ```
-The script will build a docker image and attach a console.
-When the docker image is running go to the "ledger-plugin-template" folder and build the ".elf" files.
+
+In the container, go to the plugin repository, then to the tests/ folder.
 ```shell
-cd ledger-plugin-template/tests       # go to the tests folder in ledger-plugin-template
-./build_local_test_elfs.sh      # run the script build_local_test_elfs.sh
+cd ledger-plugin-swell/tests
+./build_local_test_elfs.sh. 
 ```
 
 ## Tests
 
-To test the plugin go to the tests folder from the "ledger-plugin-template" and run the script "test"
+To test the plugin go to the tests folder from the "ledger-plugin-swell" and run the script "test"
 ```shell
-cd ledger-plugin-template/tests         # go to the tests folder in ledger-plugin-template
+cd ledger-plugin-swell/tests         # go to the tests folder in ledger-plugin-swell
 yarn test                       # run the script test
 ```

@@ -1,5 +1,5 @@
 #include <stdbool.h>
-#include "template_plugin.h"
+#include "swell_plugin.h"
 
 // Set UI for any address screen.
 static bool set_address_ui(ethQueryContractUI_t *msg, address_t *value) {

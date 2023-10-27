@@ -8,10 +8,10 @@
         "0xf14fcbc8": {
           "erc20OfInterest": [],
           "method": "commit",
-          "plugin": "TEMPLATE"
+          "plugin": "Swell"
         }
       }
     }
   ],
-  "name": "TEMPLATE"
+  "name": "Swell"
 }

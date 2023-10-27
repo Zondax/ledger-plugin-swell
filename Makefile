@@ -30,18 +30,18 @@ APPVERSION_N     = 0
 APPVERSION_P     = 0
 APPVERSION       = "$(APPVERSION_M).$(APPVERSION_N).$(APPVERSION_P)"
 
-APPNAME = "Template"
+APPNAME = "Swell"
 
 #prepare hsm generation
 ifeq ($(TARGET_NAME), TARGET_NANOS)
-ICONNAME=icons/nanos_app_template.gif
+ICONNAME=icons/nanos_app_swell.gif
 else ifeq ($(TARGET_NAME), TARGET_STAX)
-ICONNAME=icons/stax_app_template.gif
-DEFINES += ICONGLYPH=C_stax_template_64px
-DEFINES += ICONBITMAP=C_stax_template_64px_bitmap
+ICONNAME=icons/stax_app_swell.gif
+DEFINES += ICONGLYPH=C_stax_swell_64px
+DEFINES += ICONBITMAP=C_stax_swell_64px_bitmap
 GLYPH_FILES += $(ICONNAME)
 else
-ICONNAME=icons/nanox_app_template.gif
+ICONNAME=icons/nanox_app_swell.gif
 endif
 
 ################
@@ -168,4 +168,4 @@ include $(BOLOS_SDK)/Makefile.rules
 dep/%.d: %.c Makefile
 
 listvariants:
-	@echo VARIANTS NONE TEMPLATE
+	@echo VARIANTS NONE swell
