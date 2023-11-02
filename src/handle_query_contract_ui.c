@@ -41,6 +41,18 @@ static bool set_addr_ui(ethQueryContractUI_t *msg, address_t *address, const cha
     return set_address_ui(msg, address);
 }
 
+static bool set_name_ui(ethQueryContractUI_t *msg, name_t *name, const char *title) {
+    strlcpy(msg->title, title, msg->titleLength);
+    if (name->ellipsis) {
+        snprintf(msg->msg, msg->msgLength, "%.*s...%s", 16, name->text, name->text + 16);
+        return true;
+    } else {
+        snprintf(msg->msg, msg->msgLength, "%s", name->text);
+        return true;
+    }
+    return false;
+}
+
 void handle_query_contract_ui(ethQueryContractUI_t *msg) {
     context_t *context = (context_t *) msg->pluginContext;
     bool ret = false;
@@ -63,6 +75,23 @@ void handle_query_contract_ui(ethQueryContractUI_t *msg) {
                     ret = set_addr_ui(msg,
                                       &context->tx.body.update_operator_reward.reward,
                                       "Reward Addr");
+                    break;
+                default:
+                    PRINTF("Received an invalid screenIndex\n");
+                    ret = false;
+            }
+            break;
+        case UPDATE_OPERATOR_NAME:
+            switch (msg->screenIndex) {
+                case 0:
+                    ret = set_addr_ui(msg,
+                                      &context->tx.body.update_operator_name.operator,
+                                      "Operator Addr");
+                    break;
+                case 1:
+                    ret = set_name_ui(msg,
+                                      &context->tx.body.update_operator_name.name,
+                                      "Name");
                     break;
                 default:
                     PRINTF("Received an invalid screenIndex\n");

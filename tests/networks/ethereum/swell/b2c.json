@@ -9,6 +9,11 @@
           "erc20OfInterest": [],
           "method": "updateOperatorRewardAddress",
           "plugin": "Swell"
+        },
+        "0x9f5db69c": {
+          "erc20OfInterest": [],
+          "method": "updateOperatorName",
+          "plugin": "Swell"
         }
       }
     }

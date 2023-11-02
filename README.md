@@ -26,20 +26,20 @@ Smart contracts covered by this plugin are:
 
 |  Network | Smart Contract                 | Smart Contract Address |
 | -------- | ------------------------------ | ---------------------- |
-| Ethereum | SwETH       | [0xf951E335afb289353dc249e82926178EaC7DEd78](https://etherscan.io/address/0xf951e335afb289353dc249e82926178eac7ded78) |
-| Ethereum| Deposit Manager    | [0x46DdC39E780088B1B146Aba8cBBe15DC321A1A1d](https://etherscan.io/address/0x46ddc39e780088b1b146aba8cbbe15dc321a1a1d) |
-| Ethereum| Node Operator Registry    | [0x46DdC39E780088B1B146Aba8cBBe15DC321A1A1d](https://etherscan.io/address/0x46ddc39e780088b1b146aba8cbbe15dc321a1a1d) |
+| Ethereum| Deposit Manager & Node Operator Registry    | [0x46DdC39E780088B1B146Aba8cBBe15DC321A1A1d](https://etherscan.io/address/0x46ddc39e780088b1b146aba8cbbe15dc321a1a1d) |
 ...
 
 
 ## Functions implemented:
 
 
-|    Function               | Selector | Displayed Parameters   | 
-| ---                       | ---      | ---                    |
-|commit                     |0xf14fcbc8|<code>bytes32 commitment</code> |
-|register                   |0x85f6d155| <table> <tbody> <tr><td><code>string name</code></td></tr> <tr><td><code>address owner</code></td></tr> <tr><td><code>uint256 duration</code></td></tr> <tr><td><code>bytes32 secret</code></td></tr> </tbody> </table>                               |
+|    Function                   | Selector | Displayed Parameters   | 
+| ---                           | ---      | ---                    |
+|updateOperatorRewardAddress    |0xe8f28a6c|<table> <tbody> <tr><td><code>address operator</code></td></tr> <tr><td><code>address reward</code></td></tr>  </tbody> </table>  |
+|updateOperatorName*            |0x9f5db69c| <table> <tbody> <tr><td><code>address operator</code></td></tr> <tr><td><code>string name</code></td></tr>  </tbody> </table> |
 ...
+
+For strings and byte arrays bigger then 32, plugin is showing the first and last 16 bytes in "16...16" format, due to memory limitations.
 
 ## Build
 

@@ -10,11 +10,14 @@
 // Name of the plugin.
 #define PLUGIN_NAME "Swell"
 
+#define HALF_PARAMETER_LENGTH 16
+
 // Enumeration of the different selectors possible.
 // Should follow the exact same order as the array declared in main.c
 typedef enum {
     WITHDRAWERC20 = 0,
     UPDATE_OPERATOR_REWARD,
+    UPDATE_OPERATOR_NAME
 } selector_t;
 
 // Enumeration used to parse the smart contract data.
@@ -22,6 +25,11 @@ typedef enum {
     ADDRESS = 0,
     OPERATOR,
     REWARD,
+    NAME,
+    NAME_OFFSET,
+    NAME_LEN,
+    NAME_OFFSET_1,
+    NAME_OFFSET_2,
     NONE
 } parameter;
 
@@ -36,6 +44,12 @@ typedef struct {
 } address_t;
 
 typedef struct {
+    uint16_t len;
+    uint8_t text[PARAMETER_LENGTH + 1];
+    bool ellipsis;
+} name_t;
+
+typedef struct {
     union {
         struct {
             address_t token_addr;
@@ -45,6 +59,11 @@ typedef struct {
             address_t operator;
             address_t reward;
         } update_operator_reward;
+
+        struct {
+            address_t operator;
+            name_t name;
+        } update_operator_name;
     } body;
 } swell_tx_t;
 

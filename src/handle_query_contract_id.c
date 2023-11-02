@@ -13,6 +13,9 @@ void handle_query_contract_id(ethQueryContractID_t *msg) {
         case UPDATE_OPERATOR_REWARD:
             strlcpy(msg->version, "Update Operator Reward", msg->versionLength);
             break;
+        case UPDATE_OPERATOR_NAME:
+            strlcpy(msg->version, "Update Operator Name", msg->versionLength);
+            break;
         default:
             PRINTF("Selector index: %d not supported\n", context->selectorIndex);
             msg->result = ETH_PLUGIN_RESULT_ERROR;
