@@ -160,6 +160,23 @@ static void handle_operator_address(ethPluginProvideParameter_t *msg, context_t 
     }
 }
 
+static void handle_operator_initialize(ethPluginProvideParameter_t *msg, context_t *context) {
+    switch (context->next_param) {
+        case ADDRESS:
+            copy_address(context->tx.body.initialize.control.value,
+                         msg->parameter,
+                         sizeof(context->tx.body.initialize.control.value));
+            context->next_param = NONE;
+            break;
+        case NONE:
+            break;
+        default:
+            PRINTF("Param not supported: %d\n", context->next_param);
+            msg->result = ETH_PLUGIN_RESULT_ERROR;
+            break;
+    }
+}
+
 void handle_provide_parameter(ethPluginProvideParameter_t *msg) {
     context_t *context = (context_t *) msg->pluginContext;
     // We use `%.*H`: it's a utility function to print bytes. You first give
@@ -173,14 +190,17 @@ void handle_provide_parameter(ethPluginProvideParameter_t *msg) {
     msg->result = ETH_PLUGIN_RESULT_OK;
 
     switch (context->selectorIndex) {
-        case UPDATE_OPERATOR_REWARD:
-            handle_operator_reward(msg, context);
+        case INITIALIZE:
+            handle_operator_initialize(msg, context);
+            break;
+        case UPDATE_OPERATOR_ADDRESS:
+            handle_operator_address(msg, context);
             break;
         case UPDATE_OPERATOR_NAME:
             handle_operator_name(msg, context);
             break;
-        case UPDATE_OPERATOR_ADDRESS:
-            handle_operator_address(msg, context);
+        case UPDATE_OPERATOR_REWARD:
+            handle_operator_reward(msg, context);
             break;
         default:
             PRINTF("Selector Index not supported: %d\n", context->selectorIndex);

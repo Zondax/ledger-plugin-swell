@@ -15,22 +15,24 @@
 // Enumeration of the different selectors possible.
 // Should follow the exact same order as the array declared in main.c
 typedef enum {
-    WITHDRAWERC20 = 0,
-    UPDATE_OPERATOR_REWARD,
+    INITIALIZE = 0,
+    UPDATE_OPERATOR_ADDRESS,
     UPDATE_OPERATOR_NAME,
-    UPDATE_OPERATOR_ADDRESS
+    UPDATE_OPERATOR_REWARD,
+    WITHDRAWERC20
+
 } selector_t;
 
 // Enumeration used to parse the smart contract data.
 typedef enum {
     ADDRESS = 0,
-    OPERATOR,
-    REWARD,
     NAME,
     NAME_OFFSET,
     NAME_LEN,
     NAME_OFFSET_1,
     NAME_OFFSET_2,
+    OPERATOR,
+    REWARD,
     NONE
 } parameter;
 
@@ -53,14 +55,12 @@ typedef struct {
 typedef struct {
     union {
         struct {
-            address_t token_addr;
-        } withdrawerc20;
-
+            address_t control;
+        } initialize;
         struct {
             address_t operator;
-            address_t reward;
-        } update_operator_reward;
-
+            address_t new_operator;
+        } update_operator_address;
         struct {
             address_t operator;
             name_t name;
@@ -68,8 +68,13 @@ typedef struct {
 
         struct {
             address_t operator;
-            address_t new_operator;
-        } update_operator_address;
+            address_t reward;
+        } update_operator_reward;
+
+        struct {
+            address_t token_addr;
+        } withdrawerc20;
+
     } body;
 } swell_tx_t;
 

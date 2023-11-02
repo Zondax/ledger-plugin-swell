@@ -19,6 +19,11 @@
           "erc20OfInterest": [],
           "method": "updateOperatorControllingAddress",
           "plugin": "Swell"
+        },
+        "0xc4d66de8": {
+          "erc20OfInterest": [],
+          "method": "initialize",
+          "plugin": "Swell"
         }
       }
     }

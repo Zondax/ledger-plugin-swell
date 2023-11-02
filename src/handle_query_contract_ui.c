@@ -14,10 +14,10 @@ static bool set_address_ui(ethQueryContractUI_t *msg, address_t *value) {
     // Get the string representation of the address stored in `context->beneficiary`. Put it in
     // `msg->msg`.
     return getEthAddressStringFromBinary(
-               value->value,
-               msg->msg + 2,  // +2 here because we've already prefixed with '0x'.
-               msg->pluginSharedRW->sha3,
-               chainid);
+        value->value,
+        msg->msg + 2,  // +2 here because we've already prefixed with '0x'.
+        msg->pluginSharedRW->sha3,
+        chainid);
 }
 
 static uint32_t array_to_hexstr(char *dst, size_t dstLen, const uint8_t *src, uint8_t count) {
@@ -64,17 +64,25 @@ void handle_query_contract_ui(ethQueryContractUI_t *msg) {
     memset(msg->msg, 0, msg->msgLength);
 
     switch (context->selectorIndex) {
-        case UPDATE_OPERATOR_REWARD:
+        case INITIALIZE:
+            if (msg->screenIndex == 0) {
+                ret = set_addr_ui(msg, &context->tx.body.initialize.control, "Control Manager");
+            } else {
+                PRINTF("Received an invalid screenIndex\n");
+                ret = false;
+            }
+            break;
+        case UPDATE_OPERATOR_ADDRESS:
             switch (msg->screenIndex) {
                 case 0:
                     ret = set_addr_ui(msg,
-                                      &context->tx.body.update_operator_reward.operator,
+                                      &context->tx.body.update_operator_address.operator,
                                       "Operator Addr");
                     break;
                 case 1:
                     ret = set_addr_ui(msg,
-                                      &context->tx.body.update_operator_reward.reward,
-                                      "Reward Addr");
+                                      &context->tx.body.update_operator_address.new_operator,
+                                      "New Operator Addr");
                     break;
                 default:
                     PRINTF("Received an invalid screenIndex\n");
@@ -89,26 +97,24 @@ void handle_query_contract_ui(ethQueryContractUI_t *msg) {
                                       "Operator Addr");
                     break;
                 case 1:
-                    ret = set_name_ui(msg,
-                                      &context->tx.body.update_operator_name.name,
-                                      "Name");
+                    ret = set_name_ui(msg, &context->tx.body.update_operator_name.name, "Name");
                     break;
                 default:
                     PRINTF("Received an invalid screenIndex\n");
                     ret = false;
             }
             break;
-        case UPDATE_OPERATOR_ADDRESS:
+        case UPDATE_OPERATOR_REWARD:
             switch (msg->screenIndex) {
                 case 0:
                     ret = set_addr_ui(msg,
-                                      &context->tx.body.update_operator_address.operator,
+                                      &context->tx.body.update_operator_reward.operator,
                                       "Operator Addr");
                     break;
                 case 1:
                     ret = set_addr_ui(msg,
-                                      &context->tx.body.update_operator_address.new_operator,
-                                      "New Operator Addr");
+                                      &context->tx.body.update_operator_reward.reward,
+                                      "Reward Addr");
                     break;
                 default:
                     PRINTF("Received an invalid screenIndex\n");
