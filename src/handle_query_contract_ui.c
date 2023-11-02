@@ -64,10 +64,29 @@ void handle_query_contract_ui(ethQueryContractUI_t *msg) {
     memset(msg->msg, 0, msg->msgLength);
 
     switch (context->selectorIndex) {
+        case ADD_OPERATOR:
+            switch (msg->screenIndex) {
+                case 0:
+                    ret = set_name_ui(msg, &context->tx.body.add_operator.name, "Name");
+                    break;
+                case 1:
+                    ret =
+                        set_addr_ui(msg, &context->tx.body.add_operator.operator, "Operator Addr");
+                    break;
+                case 2:
+                    ret = set_addr_ui(msg, &context->tx.body.add_operator.reward, "Reward Addr");
+                    break;
+                default:
+                    PRINTF("Received an invalid screenIndex\n");
+                    ret = false;
+            }
+            break;
         case DISABLE_OPERATOR:
         case ENABLE_OPERATOR:
             if (msg->screenIndex == 0) {
-                ret = set_addr_ui(msg, &context->tx.body.disable_enable_operator.operator, "Operator Addr");
+                ret = set_addr_ui(msg,
+                                  &context->tx.body.disable_enable_operator.operator,
+                                  "Operator Addr");
             } else {
                 PRINTF("Received an invalid screenIndex\n");
                 ret = false;

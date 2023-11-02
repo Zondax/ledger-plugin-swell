@@ -34,6 +34,11 @@
           "erc20OfInterest": [],
           "method": "disableOperator",
           "plugin": "Swell"
+        },
+        "0x54741d6d": {
+          "erc20OfInterest": [],
+          "method": "addOperator",
+          "plugin": "Swell"
         }
       }
     }

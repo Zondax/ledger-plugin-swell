@@ -7,6 +7,9 @@ void handle_finalize(ethPluginFinalize_t *msg) {
 
     // The total number of screen you will need.
     switch (context->selectorIndex) {
+        case ADD_OPERATOR:
+            msg->numScreens = 3;
+            break;
         case DISABLE_OPERATOR:
         case ENABLE_OPERATOR:
         case INITIALIZE:

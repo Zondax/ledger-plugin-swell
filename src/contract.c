@@ -1,6 +1,7 @@
 #include "swell_plugin.h"
 
 // Define here the selectors
+static const uint8_t ADD_OPERATOR_SELECTOR[SELECTOR_SIZE] = {0x54, 0x74, 0x1d, 0x6d};
 static const uint8_t DISABLE_OPERATOR_SELECTOR[SELECTOR_SIZE] = {0xf5, 0x64, 0x08, 0xed};
 static const uint8_t ENABLE_OPERATOR_SELECTOR[SELECTOR_SIZE] = {0xdd, 0x30, 0x7b, 0x99};
 static const uint8_t INITIALIZE_SELECTOR[SELECTOR_SIZE] = {0xc4, 0xd6, 0x6d, 0xe8};
@@ -11,7 +12,8 @@ static const uint8_t WITHDRAWERC20_SELECTOR[SELECTOR_SIZE] = {0xf4, 0xf3, 0xb2, 
 
 // Array of all the different ens selectors. Make sure this follows the same order as the
 // enum defined in `opensea_plugin.h`
-const uint8_t *const SWELL_SELECTORS[NUM_SELECTORS] = {DISABLE_OPERATOR_SELECTOR,
+const uint8_t *const SWELL_SELECTORS[NUM_SELECTORS] = {ADD_OPERATOR_SELECTOR,
+                                                       DISABLE_OPERATOR_SELECTOR,
                                                        ENABLE_OPERATOR_SELECTOR,
                                                        INITIALIZE_SELECTOR,
                                                        UPDATE_OPERATOR_ADDRESS_SELECTOR,

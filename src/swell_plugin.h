@@ -15,7 +15,8 @@
 // Enumeration of the different selectors possible.
 // Should follow the exact same order as the array declared in main.c
 typedef enum {
-    DISABLE_OPERATOR = 0,
+    ADD_OPERATOR = 0,
+    DISABLE_OPERATOR,
     ENABLE_OPERATOR,
     INITIALIZE,
     UPDATE_OPERATOR_ADDRESS,
@@ -56,6 +57,12 @@ typedef struct {
 
 typedef struct {
     union {
+        struct {
+            name_t name;
+            address_t operator;
+            address_t reward;
+        } add_operator;
+
         struct {
             address_t operator;
         } disable_enable_operator;
