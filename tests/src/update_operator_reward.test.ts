@@ -1,17 +1,16 @@
 import { processTest, populateTransaction } from "./test.fixture";
 
-const contractName = "ETHRegistrar"; // <= Name of the smart contract
+const contractName = "TransparentUpgradeableProxy"; // <= Name of the smart contract
 
-const testLabel = "eth_registrar_commit"; // <= Name of the test
-const testDirSuffix = "eth_registrar_commit"; // <= directory to compare device snapshots to
+const testLabel = "eth_update_operator_reward"; // <= Name of the test
+const testDirSuffix = "eth_update_operator_reward"; // <= directory to compare device snapshots to
 const testNetwork = "ethereum";
 const signedPlugin = false;
 
-const contractAddr = "0x283af0b28c62c092c9727f1ee09c02ca627eb7f5"; // <= Address of the smart contract
+const contractAddr = "0x46ddc39e780088b1b146aba8cbbe15dc321a1a1d"; // <= Address of the smart contract
 const chainID = 1;
 
-// From : https://etherscan.io/tx/0xea772f0f05543cc90e25a19997c0430d82e85331d45e2264603bc3cd2bbff434
-const inputData = "0xf14fcbc86952f78134ad22871b951c2f5d1bab4f5f33359c35866dbbf2464993ee2b5589";
+const inputData = "0xe8f28a6c00000000000000000000000071c7656ec7ab88b098defb751b7401b5f6d8976f000000000000000000000000b794f5ea0ba39494ce839613fffba74279579268";
 // Create serializedTx and remove the "0x" prefix
 const value = "3.1";
 const serializedTx = populateTransaction(contractAddr, inputData, chainID, value);
@@ -19,7 +18,7 @@ const devices = [
    {
      name: "nanos",
      label: "Nano S",
-     steps: 7, // <= Define the number of steps for this test case and this device
+     steps: 10, // <= Define the number of steps for this test case and this device
    },
   {
     name: "nanox",

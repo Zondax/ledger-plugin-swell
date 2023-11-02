@@ -1,0 +1,17 @@
+{
+  "chainId": 1,
+  "contracts": [
+    {
+      "address": "0x46ddc39e780088b1b146aba8cbbe15dc321a1a1d",
+      "contractName": "TransparentUpgradeableProxy",
+      "selectors": {
+        "0xe8f28a6c": {
+          "erc20OfInterest": [],
+          "method": "updateOperatorRewardAddress",
+          "plugin": "Swell"
+        }
+      }
+    }
+  ],
+  "name": "Swell"
+}

@@ -8,35 +8,45 @@
 #define NUM_SELECTORS 11
 
 // Name of the plugin.
-#define PLUGIN_NAME "TEMPLATE"
-
-// Placeholder variant to be set when parsing is done but data is still being sent.
-#define NONE 17
+#define PLUGIN_NAME "Swell"
 
 // Enumeration of the different selectors possible.
 // Should follow the exact same order as the array declared in main.c
 typedef enum {
-    COMMIT = 0,
+    WITHDRAWERC20 = 0,
+    UPDATE_OPERATOR_REWARD,
 } selector_t;
 
 // Enumeration used to parse the smart contract data.
 typedef enum {
-    COMMITMENT = 0,
+    ADDRESS = 0,
+    OPERATOR,
+    REWARD,
+    NONE
 } parameter;
 
-extern const uint8_t *const TEMPLATE_SELECTORS[NUM_SELECTORS];
+extern const uint8_t *const SWELL_SELECTORS[NUM_SELECTORS];
 
 typedef struct {
     uint8_t value[INT256_LENGTH];
 } bytes32_t;
 
 typedef struct {
+    uint8_t value[ADDRESS_LENGTH];
+} address_t;
+
+typedef struct {
     union {
         struct {
-            bytes32_t commitment;
-        } commit;
+            address_t token_addr;
+        } withdrawerc20;
+
+        struct {
+            address_t operator;
+            address_t reward;
+        } update_operator_reward;
     } body;
-} template_tx_t;
+} swell_tx_t;
 
 // Shared global memory with Ethereum app. Must be at most 5 * 32 bytes.
 typedef struct context_t {
@@ -50,7 +60,7 @@ typedef struct context_t {
     selector_t selectorIndex;
 
     // Tx related context
-    template_tx_t tx;
+    swell_tx_t tx;
 } context_t;
 
 // Piece of code that will check that the above structure is not bigger than 5 * 32. Do not remove

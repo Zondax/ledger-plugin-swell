@@ -13,11 +13,11 @@ static bool set_address_ui(ethQueryContractUI_t *msg, address_t *value) {
 
     // Get the string representation of the address stored in `context->beneficiary`. Put it in
     // `msg->msg`.
-    return = getEthAddressStringFromBinary(
-        value->value,
-        msg->msg + 2,  // +2 here because we've already prefixed with '0x'.
-        msg->pluginSharedRW->sha3,
-        chainid);
+    return getEthAddressStringFromBinary(
+               value->value,
+               msg->msg + 2,  // +2 here because we've already prefixed with '0x'.
+               msg->pluginSharedRW->sha3,
+               chainid);
 }
 
 static uint32_t array_to_hexstr(char *dst, size_t dstLen, const uint8_t *src, uint8_t count) {
@@ -36,7 +36,7 @@ static uint32_t array_to_hexstr(char *dst, size_t dstLen, const uint8_t *src, ui
     return (uint32_t) (count * 2);
 }
 
-static void set_addr_ui(ethQueryContractUI_t *msg, address_t *address, const char *title) {
+static bool set_addr_ui(ethQueryContractUI_t *msg, address_t *address, const char *title) {
     strlcpy(msg->title, title, msg->titleLength);
     return set_address_ui(msg, address);
 }
@@ -52,9 +52,17 @@ void handle_query_contract_ui(ethQueryContractUI_t *msg) {
     memset(msg->msg, 0, msg->msgLength);
 
     switch (context->selectorIndex) {
-        case COMMIT:
+        case UPDATE_OPERATOR_REWARD:
             switch (msg->screenIndex) {
                 case 0:
+                    ret = set_addr_ui(msg,
+                                      &context->tx.body.update_operator_reward.operator,
+                                      "Operator Addr");
+                    break;
+                case 1:
+                    ret = set_addr_ui(msg,
+                                      &context->tx.body.update_operator_reward.reward,
+                                      "Reward Addr");
                     break;
                 default:
                     PRINTF("Received an invalid screenIndex\n");

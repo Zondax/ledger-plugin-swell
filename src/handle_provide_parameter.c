@@ -5,12 +5,18 @@ static void copy_text(uint8_t *dst, uint16_t dst_len, uint16_t max_len, const ui
     memcpy(dst, src, len);
 }
 
-static void handle_commit(ethPluginProvideParameter_t *msg, context_t *context) {
+static void handle_operator_reward(ethPluginProvideParameter_t *msg, context_t *context) {
     switch (context->next_param) {
-        case COMMITMENT:
-            copy_parameter(context->tx.body.commit.commitment.value,
-                           msg->parameter,
-                           sizeof(context->tx.body.commit.commitment.value));
+        case OPERATOR:
+            copy_address(context->tx.body.update_operator_reward.operator.value,
+                         msg->parameter,
+                         sizeof(context->tx.body.update_operator_reward.operator.value));
+            context->next_param = REWARD;
+            break;
+        case REWARD:
+            copy_address(context->tx.body.update_operator_reward.reward.value,
+                         msg->parameter,
+                         sizeof(context->tx.body.update_operator_reward.reward.value));
             context->next_param = NONE;
             break;
         case NONE:
@@ -35,8 +41,8 @@ void handle_provide_parameter(ethPluginProvideParameter_t *msg) {
     msg->result = ETH_PLUGIN_RESULT_OK;
 
     switch (context->selectorIndex) {
-        case COMMIT:
-            handle_commit(msg, context);
+        case UPDATE_OPERATOR_REWARD:
+            handle_operator_reward(msg, context);
             break;
         default:
             PRINTF("Selector Index not supported: %d\n", context->selectorIndex);

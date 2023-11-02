@@ -26,8 +26,9 @@ Smart contracts covered by this plugin are:
 
 |  Network | Smart Contract                 | Smart Contract Address |
 | -------- | ------------------------------ | ---------------------- |
-| Ethereum | ETH Registrar Controller       | [0x253553366da8546fc250f225fe3d25d0c782303b](https://etherscan.io/address/0x253553366da8546fc250f225fe3d25d0c782303b) |
-| Ethereum| ETH Registrar Controller Old    | [0x283af0b28c62c092c9727f1ee09c02ca627eb7f5](https://etherscan.io/address/0x283af0b28c62c092c9727f1ee09c02ca627eb7f5) |
+| Ethereum | SwETH       | [0xf951E335afb289353dc249e82926178EaC7DEd78](https://etherscan.io/address/0xf951e335afb289353dc249e82926178eac7ded78) |
+| Ethereum| Deposit Manager    | [0x46DdC39E780088B1B146Aba8cBBe15DC321A1A1d](https://etherscan.io/address/0x46ddc39e780088b1b146aba8cbbe15dc321a1a1d) |
+| Ethereum| Node Operator Registry    | [0x46DdC39E780088B1B146Aba8cBBe15DC321A1A1d](https://etherscan.io/address/0x46ddc39e780088b1b146aba8cbbe15dc321a1a1d) |
 ...
 
 

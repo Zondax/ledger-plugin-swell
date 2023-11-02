@@ -7,8 +7,8 @@ void handle_finalize(ethPluginFinalize_t *msg) {
 
     // The total number of screen you will need.
     switch (context->selectorIndex) {
-        case COMMIT:
-            msg->numScreens = 1;
+        case UPDATE_OPERATOR_REWARD:
+            msg->numScreens = 2;
             break;
         default:
             msg->result = ETH_PLUGIN_RESULT_ERROR;

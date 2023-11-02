@@ -10,8 +10,8 @@ void handle_query_contract_id(ethQueryContractID_t *msg) {
     strlcpy(msg->name, PLUGIN_NAME, msg->nameLength);
 
     switch (context->selectorIndex) {
-        case COMMIT:
-            strlcpy(msg->version, "Commit", msg->versionLength);
+        case UPDATE_OPERATOR_REWARD:
+            strlcpy(msg->version, "Update Operator Reward", msg->versionLength);
             break;
         default:
             PRINTF("Selector index: %d not supported\n", context->selectorIndex);
