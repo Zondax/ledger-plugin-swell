@@ -24,6 +24,16 @@
           "erc20OfInterest": [],
           "method": "initialize",
           "plugin": "Swell"
+        },
+        "0xdd307b99": {
+          "erc20OfInterest": [],
+          "method": "enableOperator",
+          "plugin": "Swell"
+        },
+        "0xf56408ed": {
+          "erc20OfInterest": [],
+          "method": "disableOperator",
+          "plugin": "Swell"
         }
       }
     }

@@ -34,6 +34,8 @@ void handle_init_contract(ethPluginInitContract_t *msg) {
 
     // Set `next_param` to be the first field we expect to parse.
     switch (context->selectorIndex) {
+        case DISABLE_OPERATOR:
+        case ENABLE_OPERATOR:
         case INITIALIZE:
             context->next_param = ADDRESS;
             break;

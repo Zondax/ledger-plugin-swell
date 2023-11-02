@@ -10,6 +10,12 @@ void handle_query_contract_id(ethQueryContractID_t *msg) {
     strlcpy(msg->name, PLUGIN_NAME, msg->nameLength);
 
     switch (context->selectorIndex) {
+        case DISABLE_OPERATOR:
+            strlcpy(msg->version, "Disable Operator", msg->versionLength);
+            break;
+        case ENABLE_OPERATOR:
+            strlcpy(msg->version, "Enable Operator", msg->versionLength);
+            break;
         case INITIALIZE:
             strlcpy(msg->version, "Initialize", msg->versionLength);
             break;
