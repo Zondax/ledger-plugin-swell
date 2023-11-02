@@ -17,7 +17,8 @@
 typedef enum {
     WITHDRAWERC20 = 0,
     UPDATE_OPERATOR_REWARD,
-    UPDATE_OPERATOR_NAME
+    UPDATE_OPERATOR_NAME,
+    UPDATE_OPERATOR_ADDRESS
 } selector_t;
 
 // Enumeration used to parse the smart contract data.
@@ -64,6 +65,11 @@ typedef struct {
             address_t operator;
             name_t name;
         } update_operator_name;
+
+        struct {
+            address_t operator;
+            address_t new_operator;
+        } update_operator_address;
     } body;
 } swell_tx_t;
 

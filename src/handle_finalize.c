@@ -9,6 +9,7 @@ void handle_finalize(ethPluginFinalize_t *msg) {
     switch (context->selectorIndex) {
         case UPDATE_OPERATOR_REWARD:
         case UPDATE_OPERATOR_NAME:
+        case UPDATE_OPERATOR_ADDRESS:
             msg->numScreens = 2;
             break;
         default:

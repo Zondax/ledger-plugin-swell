@@ -98,6 +98,23 @@ void handle_query_contract_ui(ethQueryContractUI_t *msg) {
                     ret = false;
             }
             break;
+        case UPDATE_OPERATOR_ADDRESS:
+            switch (msg->screenIndex) {
+                case 0:
+                    ret = set_addr_ui(msg,
+                                      &context->tx.body.update_operator_address.operator,
+                                      "Operator Addr");
+                    break;
+                case 1:
+                    ret = set_addr_ui(msg,
+                                      &context->tx.body.update_operator_address.new_operator,
+                                      "New Operator Addr");
+                    break;
+                default:
+                    PRINTF("Received an invalid screenIndex\n");
+                    ret = false;
+            }
+            break;
         default:
             PRINTF("Selector index: %d not supported\n", context->selectorIndex);
             ret = false;

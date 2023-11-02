@@ -36,6 +36,7 @@ void handle_init_contract(ethPluginInitContract_t *msg) {
     switch (context->selectorIndex) {
         case UPDATE_OPERATOR_REWARD:
         case UPDATE_OPERATOR_NAME:
+        case UPDATE_OPERATOR_ADDRESS:
             context->next_param = OPERATOR;
             break;
         default:

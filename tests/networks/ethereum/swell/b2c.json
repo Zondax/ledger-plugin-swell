@@ -14,6 +14,11 @@
           "erc20OfInterest": [],
           "method": "updateOperatorName",
           "plugin": "Swell"
+        },
+        "0x32f73258": {
+          "erc20OfInterest": [],
+          "method": "updateOperatorControllingAddress",
+          "plugin": "Swell"
         }
       }
     }
