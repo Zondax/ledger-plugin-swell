@@ -10,6 +10,11 @@ void handle_finalize(ethPluginFinalize_t *msg) {
         case ADD_OPERATOR:
             msg->numScreens = 3;
             break;
+        case DELETE_ACTIVE_VALIDATORS:
+        case DELETE_PENDING_VALIDATORS:
+        case USE_PUBKEYS_FOR_VALIDATOR:
+            msg->numScreens = context->tx.body.pubkey_methods.n_pubkeys;
+            break;
         case DISABLE_OPERATOR:
         case ENABLE_OPERATOR:
         case INITIALIZE:

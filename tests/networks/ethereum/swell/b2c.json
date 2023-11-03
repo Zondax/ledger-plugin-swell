@@ -39,6 +39,21 @@
           "erc20OfInterest": [],
           "method": "addOperator",
           "plugin": "Swell"
+        },
+        "0xc3953502": {
+          "erc20OfInterest": [],
+          "method": "usePubKeysForValidatorSetup",
+          "plugin": "Swell"
+        },
+        "0xeda74e71": {
+          "erc20OfInterest": [],
+          "method": "deleteActiveValidators",
+          "plugin": "Swell"
+        },
+        "0x242eba0e": {
+          "erc20OfInterest": [],
+          "method": "deletePendingValidators",
+          "plugin": "Swell"
         }
       }
     }

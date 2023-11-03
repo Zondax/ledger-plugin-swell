@@ -16,12 +16,15 @@
 // Should follow the exact same order as the array declared in main.c
 typedef enum {
     ADD_OPERATOR = 0,
+    DELETE_ACTIVE_VALIDATORS,
+    DELETE_PENDING_VALIDATORS,
     DISABLE_OPERATOR,
     ENABLE_OPERATOR,
     INITIALIZE,
     UPDATE_OPERATOR_ADDRESS,
     UPDATE_OPERATOR_NAME,
     UPDATE_OPERATOR_REWARD,
+    USE_PUBKEYS_FOR_VALIDATOR,
     WITHDRAWERC20
 
 } selector_t;
@@ -31,19 +34,22 @@ typedef enum {
     ADDRESS = 0,
     NAME,
     NAME_OFFSET,
+    OFFSET,
     NAME_LEN,
     NAME_OFFSET_1,
     NAME_OFFSET_2,
     OPERATOR,
     REWARD,
+    PUBKEY,
+    PUBKEY_OFFSET,
+    PUBKEY_LEN,
+    PUBKEY_OFFSET_1,
+    PUBKEY_OFFSET_2,
+    N_PUBKEYS,
     NONE
 } parameter;
 
 extern const uint8_t *const SWELL_SELECTORS[NUM_SELECTORS];
-
-typedef struct {
-    uint8_t value[INT256_LENGTH];
-} bytes32_t;
 
 typedef struct {
     uint8_t value[ADDRESS_LENGTH];
@@ -56,7 +62,18 @@ typedef struct {
 } name_t;
 
 typedef struct {
+    uint8_t value[INT256_LENGTH];
+    bool ellipsis;
+} bytes32_t;
+
+typedef struct {
     union {
+        struct {
+            uint16_t n_pubkeys;
+            uint16_t pubkeys_len[4];
+            bytes32_t pubkey[4];
+            uint8_t id;
+        } pubkey_methods;
         struct {
             name_t name;
             address_t operator;

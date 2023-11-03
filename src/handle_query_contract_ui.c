@@ -20,20 +20,52 @@ static bool set_address_ui(ethQueryContractUI_t *msg, address_t *value) {
         chainid);
 }
 
-static uint32_t array_to_hexstr(char *dst, size_t dstLen, const uint8_t *src, uint8_t count) {
+static bool array_to_hexstr(char *dst,
+                            size_t dstLen,
+                            const uint8_t *src,
+                            uint16_t count,
+                            bool addEllipsis) {
     memset(dst, 0, dstLen);
     if (dstLen < (count * 2 + 1)) {
-        return 0;
+        return false;
     }
 
     const char hexchars[] = "0123456789abcdef";
-    for (uint8_t i = 0; i < count; i++, src++) {
+    int halfCount = count / 2;  // Calculate the middle point
+
+    for (int i = 0; i < halfCount; i++, src++) {
         *dst++ = hexchars[*src >> 4u];
         *dst++ = hexchars[*src & 0x0Fu];
     }
+
+    if (addEllipsis) {
+        // Add "..." in the middle
+        *dst++ = '.';
+        *dst++ = '.';
+        *dst++ = '.';
+    }
+
+    for (int i = halfCount; i < count; i++, src++) {
+        *dst++ = hexchars[*src >> 4u];
+        *dst++ = hexchars[*src & 0x0Fu];
+    }
+
     *dst = 0;  // terminate string
 
-    return (uint32_t) (count * 2);
+    return true;
+}
+
+static bool set_bytes_ui(ethQueryContractUI_t *msg,
+                         bytes32_t *array,
+                         uint16_t src_len,
+                         const char *title) {
+    strlcpy(msg->title, title, msg->titleLength);
+
+    return array_to_hexstr(msg->msg,
+                           msg->msgLength,
+                           array->value,
+                           (src_len > PARAMETER_LENGTH) ? PARAMETER_LENGTH : src_len,
+                           array->ellipsis);
 }
 
 static bool set_addr_ui(ethQueryContractUI_t *msg, address_t *address, const char *title) {
@@ -79,6 +111,19 @@ void handle_query_contract_ui(ethQueryContractUI_t *msg) {
                 default:
                     PRINTF("Received an invalid screenIndex\n");
                     ret = false;
+            }
+            break;
+        case DELETE_ACTIVE_VALIDATORS:
+        case DELETE_PENDING_VALIDATORS:
+        case USE_PUBKEYS_FOR_VALIDATOR:
+            if (msg->screenIndex < context->tx.body.pubkey_methods.n_pubkeys) {
+                ret = set_bytes_ui(msg,
+                                   &context->tx.body.pubkey_methods.pubkey[msg->screenIndex],
+                                   context->tx.body.pubkey_methods.pubkeys_len[msg->screenIndex],
+                                   "Pubkey");
+            } else {
+                PRINTF("Received an invalid screenIndex\n");
+                ret = false;
             }
             break;
         case DISABLE_OPERATOR:

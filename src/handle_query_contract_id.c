@@ -13,6 +13,12 @@ void handle_query_contract_id(ethQueryContractID_t *msg) {
         case ADD_OPERATOR:
             strlcpy(msg->version, "Add Operator", msg->versionLength);
             break;
+        case DELETE_ACTIVE_VALIDATORS:
+            strlcpy(msg->version, "Delete Active Validators", msg->versionLength);
+            break;
+        case DELETE_PENDING_VALIDATORS:
+            strlcpy(msg->version, "Delete Pending Validators", msg->versionLength);
+            break;
         case DISABLE_OPERATOR:
             strlcpy(msg->version, "Disable Operator", msg->versionLength);
             break;
@@ -30,6 +36,9 @@ void handle_query_contract_id(ethQueryContractID_t *msg) {
             break;
         case UPDATE_OPERATOR_REWARD:
             strlcpy(msg->version, "Update Operator Reward", msg->versionLength);
+            break;
+        case USE_PUBKEYS_FOR_VALIDATOR:
+            strlcpy(msg->version, "Use Pubkeys For Validators", msg->versionLength);
             break;
         default:
             PRINTF("Selector index: %d not supported\n", context->selectorIndex);
