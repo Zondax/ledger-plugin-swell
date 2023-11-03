@@ -54,6 +54,11 @@
           "erc20OfInterest": [],
           "method": "deletePendingValidators",
           "plugin": "Swell"
+        },
+        "0xf4f3b200": {
+          "erc20OfInterest": [],
+          "method": "withdrawERC20",
+          "plugin": "Swell"
         }
       }
     }

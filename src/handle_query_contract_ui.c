@@ -194,6 +194,14 @@ void handle_query_contract_ui(ethQueryContractUI_t *msg) {
                     ret = false;
             }
             break;
+        case WITHDRAWERC20:
+            if (msg->screenIndex == 0) {
+                ret = set_addr_ui(msg, &context->tx.body.withdrawerc20.token_addr, "Token Addr");
+            } else {
+                PRINTF("Received an invalid screenIndex\n");
+                ret = false;
+            }
+            break;
         default:
             PRINTF("Selector index: %d not supported\n", context->selectorIndex);
             ret = false;

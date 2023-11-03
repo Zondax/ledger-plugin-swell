@@ -40,6 +40,9 @@ void handle_query_contract_id(ethQueryContractID_t *msg) {
         case USE_PUBKEYS_FOR_VALIDATOR:
             strlcpy(msg->version, "Use Pubkeys For Validators", msg->versionLength);
             break;
+        case WITHDRAWERC20:
+            strlcpy(msg->version, "WithdrawERC20", msg->versionLength);
+            break;
         default:
             PRINTF("Selector index: %d not supported\n", context->selectorIndex);
             msg->result = ETH_PLUGIN_RESULT_ERROR;

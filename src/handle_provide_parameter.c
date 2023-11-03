@@ -459,6 +459,23 @@ static void handle_pubkeys(ethPluginProvideParameter_t *msg, context_t *context)
     }
 }
 
+static void handle_withdraw(ethPluginProvideParameter_t *msg, context_t *context) {
+    switch (context->next_param) {
+        case ADDRESS:
+            copy_address(context->tx.body.withdrawerc20.token_addr.value,
+                         msg->parameter,
+                         sizeof(context->tx.body.withdrawerc20.token_addr.value));
+            context->next_param = NONE;
+            break;
+        case NONE:
+            break;
+        default:
+            PRINTF("Param not supported: %d\n", context->next_param);
+            msg->result = ETH_PLUGIN_RESULT_ERROR;
+            break;
+    }
+}
+
 void handle_provide_parameter(ethPluginProvideParameter_t *msg) {
     context_t *context = (context_t *) msg->pluginContext;
     // We use `%.*H`: it's a utility function to print bytes. You first give
@@ -495,6 +512,9 @@ void handle_provide_parameter(ethPluginProvideParameter_t *msg) {
             break;
         case UPDATE_OPERATOR_REWARD:
             handle_operator_reward(msg, context);
+            break;
+        case WITHDRAWERC20:
+            handle_withdraw(msg, context);
             break;
         default:
             PRINTF("Selector Index not supported: %d\n", context->selectorIndex);

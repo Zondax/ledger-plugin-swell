@@ -45,6 +45,7 @@ void handle_init_contract(ethPluginInitContract_t *msg) {
         case DISABLE_OPERATOR:
         case ENABLE_OPERATOR:
         case INITIALIZE:
+        case WITHDRAWERC20:
             context->next_param = ADDRESS;
             break;
         case UPDATE_OPERATOR_ADDRESS:

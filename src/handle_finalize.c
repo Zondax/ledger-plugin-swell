@@ -18,6 +18,7 @@ void handle_finalize(ethPluginFinalize_t *msg) {
         case DISABLE_OPERATOR:
         case ENABLE_OPERATOR:
         case INITIALIZE:
+        case WITHDRAWERC20:
             msg->numScreens = 1;
             break;
         case UPDATE_OPERATOR_ADDRESS:
