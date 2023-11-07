@@ -59,6 +59,11 @@
           "erc20OfInterest": [],
           "method": "withdrawERC20",
           "plugin": "Swell"
+        },
+        "0x60ec5216": {
+          "erc20OfInterest": [],
+          "method": "addNewValidatorDetails",
+          "plugin": "Swell"
         }
       }
     }

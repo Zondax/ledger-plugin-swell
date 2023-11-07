@@ -10,6 +10,9 @@ void handle_query_contract_id(ethQueryContractID_t *msg) {
     strlcpy(msg->name, PLUGIN_NAME, msg->nameLength);
 
     switch (context->selectorIndex) {
+        case ADD_NEW_VALIDATOR:
+            strlcpy(msg->version, "Add New Validator Details", msg->versionLength);
+            break;
         case ADD_OPERATOR:
             strlcpy(msg->version, "Add Operator", msg->versionLength);
             break;

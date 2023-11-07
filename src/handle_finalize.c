@@ -7,6 +7,9 @@ void handle_finalize(ethPluginFinalize_t *msg) {
 
     // The total number of screen you will need.
     switch (context->selectorIndex) {
+        case ADD_NEW_VALIDATOR:
+            msg->numScreens = context->tx.body.add_new_validator.n_pubkeys;
+            break;
         case ADD_OPERATOR:
             msg->numScreens = 3;
             break;

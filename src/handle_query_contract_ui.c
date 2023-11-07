@@ -96,6 +96,17 @@ void handle_query_contract_ui(ethQueryContractUI_t *msg) {
     memset(msg->msg, 0, msg->msgLength);
 
     switch (context->selectorIndex) {
+        case ADD_NEW_VALIDATOR:
+            if (msg->screenIndex < context->tx.body.add_new_validator.n_pubkeys) {
+                ret = set_bytes_ui(msg,
+                                   &context->tx.body.add_new_validator.pubkey[msg->screenIndex],
+                                   context->tx.body.add_new_validator.pubkeys_len[msg->screenIndex],
+                                   "Pubkey");
+            } else {
+                PRINTF("Received an invalid screenIndex\n");
+                ret = false;
+            }
+            break;
         case ADD_OPERATOR:
             switch (msg->screenIndex) {
                 case 0:

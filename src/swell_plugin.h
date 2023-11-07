@@ -5,7 +5,7 @@
 #include <string.h>
 
 // Number of selectors defined in this plugin. Should match the enum `selector_t`.
-#define NUM_SELECTORS 11
+#define NUM_SELECTORS 12
 
 // Name of the plugin.
 #define PLUGIN_NAME "Swell"
@@ -15,7 +15,8 @@
 // Enumeration of the different selectors possible.
 // Should follow the exact same order as the array declared in main.c
 typedef enum {
-    ADD_OPERATOR = 0,
+    ADD_NEW_VALIDATOR = 0,
+    ADD_OPERATOR,
     DELETE_ACTIVE_VALIDATORS,
     DELETE_PENDING_VALIDATORS,
     DISABLE_OPERATOR,
@@ -46,6 +47,9 @@ typedef enum {
     PUBKEY_OFFSET_1,
     PUBKEY_OFFSET_2,
     N_PUBKEYS,
+    TUPLE_OFFSET_1,
+    TUPLE_OFFSET_2,
+    SIGNATURE_LEN,
     NONE
 } parameter;
 
@@ -73,7 +77,15 @@ typedef struct {
             uint16_t pubkeys_len[4];
             bytes32_t pubkey[4];
             uint8_t id;
+        } add_new_validator;
+
+        struct {
+            uint16_t n_pubkeys;
+            uint16_t pubkeys_len[4];
+            bytes32_t pubkey[4];
+            uint8_t id;
         } pubkey_methods;
+
         struct {
             name_t name;
             address_t operator;

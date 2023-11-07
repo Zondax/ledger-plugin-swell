@@ -40,6 +40,7 @@ void handle_init_contract(ethPluginInitContract_t *msg) {
         case DELETE_ACTIVE_VALIDATORS:
         case DELETE_PENDING_VALIDATORS:
         case USE_PUBKEYS_FOR_VALIDATOR:
+        case ADD_NEW_VALIDATOR:
             context->next_param = OFFSET;
             break;
         case DISABLE_OPERATOR:
