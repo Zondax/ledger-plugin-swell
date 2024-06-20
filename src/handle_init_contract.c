@@ -38,16 +38,29 @@ void handle_init_contract(ethPluginInitContract_t *msg) {
     }
 
     // Set `next_param` to be the first field we expect to parse.
-    // EDIT THIS: Adapt the `cases`, and set the `next_param` to be the first parameter you expect
-    // to parse.
     switch (context->selectorIndex) {
-        case SWAP_EXACT_ETH_FOR_TOKENS:
-            context->next_param = MIN_AMOUNT_RECEIVED;
+        case ADD_OPERATOR:
+            context->next_param = NAME_OFFSET;
             break;
-        case BOILERPLATE_DUMMY_2:
-            context->next_param = TOKEN_RECEIVED;
+        case DELETE_ACTIVE_VALIDATORS:
+        case DELETE_PENDING_VALIDATORS:
+        case USE_PUBKEYS_FOR_VALIDATOR:
+        case ADD_NEW_VALIDATOR:
+            context->next_param = OFFSET;
             break;
-        // Keep this
+        case DISABLE_OPERATOR:
+        case ENABLE_OPERATOR:
+        case INITIALIZE:
+        case WITHDRAWERC20:
+            context->next_param = ADDRESS;
+            break;
+        case UPDATE_OPERATOR_ADDRESS:
+        case UPDATE_OPERATOR_NAME:
+        case UPDATE_OPERATOR_REWARD:
+            context->next_param = OPERATOR;
+            break;
+        case DEPOSIT:
+            break;
         default:
             PRINTF("Missing selectorIndex: %d\n", context->selectorIndex);
             msg->result = ETH_PLUGIN_RESULT_ERROR;

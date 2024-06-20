@@ -1,40 +1,74 @@
-[![Ensure compliance with Ledger guidelines](https://github.com/LedgerHQ/app-plugin-swell/actions/workflows/guidelines_enforcer.yml/badge.svg?branch=develop)](https://github.com/LedgerHQ/app-plugin-swell/actions/workflows/guidelines_enforcer.yml)
-[![Compilation & tests](https://github.com/LedgerHQ/app-plugin-swell/actions/workflows/build_and_functional_tests.yml/badge.svg?branch=develop)](https://github.com/LedgerHQ/app-plugin-swell/actions/workflows/build_and_functional_tests.yml)
+# Ledger Plugin Swell
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+---
 
+![zondax_light](docs/zondax_light.png#gh-light-mode-only)
+![zondax_dark](docs/zondax_dark.png#gh-dark-mode-only)
 
-# app-plugin-swell
+_Please visit our website at [zondax.ch](https://www.zondax.ch)_
 
-This repo is meant to be a forkable example of a plugin.
+---
 
-Plugins are lightweight applications that go hand-in-hand with the Ethereum
-Application on a Nano (S, S plus, X), Stax and Flex devices.
+This is a plugin for the Ethereum application which helps parsing and displaying relevant information when signing a Swell smart contract.
 
-They allow users to safely interact with smart contracts by parsing the
-transaction data and displaying its content in a human-readable way. This is
-done on a "per contract" basis, meaning a plugin is required for every DApp.
+- Ledger Nano S/S+/X/Stax Swell plugin
+- Specs / Documentation
+- Ragger tests
 
-The code has been commented, and special "EDIT THIS" comments indicate where
-developers are expected to adapt the code to their own needs.
+## ATTENTION
 
-It is STRONGLY recommended to follow the
-[plugin guide](https://developers.ledger.com/docs/dapp/embedded-plugin/code-overview/)
-in order to better understand the flow and the context for plugins.
+Please:
 
-## Ethereum SDK
-
-Ethereum plugins need the [Ethereum SDK](https://github.com/LedgerHQ/ethereum-plugin-sdk).
-You can use the `ETHEREUM_PLUGIN_SDK` variable to point to the directory where you cloned
-this repository. By default, the `Makefile` expects it to be at the root directory of this
-plugin repository by the `ethereum-plugin-sdk` name.
-
-You can see that this [CI](https://github.com/LedgerHQ/app-plugin-swell/blob/develop/.github/workflows/check_sdk.yml) workflow
-verifies that the SDK used is either on the latest `master` or `develop` references. This ensures
-the code is compiled and tested on the latest version of the SDK.
+- **Do not use in production**
+- **Do not use a Ledger device with funds for development purposes.**
+- **Have a separate and marked device that is used ONLY for development and testing**
 
 ## Documentation
 
-The documentation about the plugin shall be added in [PLUGIN_SPECIFICATON.md](https://github.com/LedgerHQ/app-plugin-swell/blob/develop/PLUGIN_SPECIFICATION.md). It shall includes at least the smart contracts and functions supported by the plugin.
+Need more information about the interface, the architecture, or general stuff about ethereum plugins? You can find more about them in the [ethereum-app documentation](https://github.com/LedgerHQ/app-ethereum/blob/master/doc/ethapp_plugins.adoc).
 
-## Formatting
+## Smart Contracts
 
-The C source code is expected to be formatted with `clang-format` 11.0.0 or higher.
+Smart contracts covered by this plugin are:
+
+|  Network | Smart Contract                 | Smart Contract Address |
+| -------- | ------------------------------ | ---------------------- |
+| Ethereum| Deposit Manager & Node Operator Registry    | [0x46DdC39E780088B1B146Aba8cBBe15DC321A1A1d](https://etherscan.io/address/0x46ddc39e780088b1b146aba8cbbe15dc321a1a1d) |
+| Ethereum| rswETH    | [0xFAe103DC9cf190eD75350761e95403b7b8aFa6c0](https://etherscan.io/address/0xFAe103DC9cf190eD75350761e95403b7b8aFa6c0) |
+| Ethereum| swETH    | [0xf951e335afb289353dc249e82926178eac7ded78](https://etherscan.io/address/0xf951e335afb289353dc249e82926178eac7ded78#code) |
+
+
+## Functions implemented:
+
+
+|    Function                   | Selector | Displayed Parameters   | 
+| ---                           | ---      | ---                    |
+|addNewValidatorDetails*    |0x60ec5216|<table> <tbody> <tr><td><code>bytes[] pubkeys</code></td></tr> </tbody> </table>  |
+|addOperator*    |0x54741d6d|<table> <tbody> <tr><td><code>string name</code></td></tr> <tr><td><code>address operator</code></td></tr> <tr><td><code>address reward</code></td></tr>  </tbody> </table>  |
+|deleteActiveValidators*    |0xeda74e71|<table> <tbody> <tr><td><code>bytes[] pubkeys</code></td></tr> </tbody> </table>  |
+|deletePendingValidators*   |0x242eba0e|<table> <tbody> <tr><td><code>bytes[] pubkeys</code></td></tr> </tbody> </table>  |
+|usePubKeysForValidatorSetup*   |0xc3953502|<table> <tbody> <tr><td><code>bytes[] pubkeys</code></td></tr> </tbody> </table>  |
+|deposit     |0xd0e30db0|<table> <tbody> <tr><td><code>amount stake</code></td></tr>  </tbody> </table>  |
+|disableOperator     |0xf56408ed|<table> <tbody> <tr><td><code>address operator</code></td></tr>  </tbody> </table>  |
+|enableOperator   |0xdd307b99|<table> <tbody> <tr><td><code>address operator</code></td></tr>  </tbody> </table>  |
+|initialize   |0xc4d66de8|<table> <tbody> <tr><td><code>address control_manager</code></td></tr>  </tbody> </table>  |
+|updateOperatorControllingAddress    |0x32f73258|<table> <tbody> <tr><td><code>address operator</code></td></tr> <tr><td><code>address new_operator</code></td></tr>  </tbody> </table>  |
+|updateOperatorRewardAddress    |0xe8f28a6c|<table> <tbody> <tr><td><code>address operator</code></td></tr> <tr><td><code>address reward</code></td></tr>  </tbody> </table>  |
+|updateOperatorName*            |0x9f5db69c| <table> <tbody> <tr><td><code>address operator</code></td></tr> <tr><td><code>string name</code></td></tr>  </tbody> </table> |
+|withdrawERC20   |0xf4f3b200|<table> <tbody> <tr><td><code>address token</code></td></tr>  </tbody> </table>  |
+
+*For strings and byte arrays bigger then 32, plugin is showing the first and last 16 bytes in "16...16" format, due to memory limitations.
+For addNewValidatorDetails, deleteActiveValidators, deletePendingValidators, usePubKeysForValidatorSetup, plugin can only verify transactions with 4 pubkeys maximum due to memory limitation.
+
+
+## How to build
+
+Ledger's recommended [plugin guide](https://developers.ledger.com/docs/dapp/embedded-plugin/code-overview/) is out-dated and doesn't work since they introduced a lot of new changes. Here's a simple way to get started with this repo:
+1. Clone this repo (along with git submodules)
+2. Install [Xquartz](https://www.xquartz.org/) and make sure you have enabled "Allow connections from network clients" enabled under "Security" settings.
+3. Install and start Docker (Note: If Docker is already running, quit and start it after starting Xquartz, otherwise docker cannot connect to Xquartz).
+4. Install the [Ledger Dev Tools VS Code plugin](https://marketplace.visualstudio.com/items?itemName=LedgerHQ.ledger-dev-tools#:~:text=ledger%2Dvscode%2Dextension,Plus%2C%20Nano%20X%2C%20Stax) and makes sure it's enabled
+5. Once you have installed the plugin and open the repo, the plugin should by default try to create and start the containers. If it doesn't, you can simply click "Update Container" under "Ledger Dev Tools" in the Activity Side Bar on VS Code.
+6. On the "Ledger Dev Tools" side bar, Select a target and then click on Build. 
+7. Once build is complete, click on "Run tests" to run the tests
+
