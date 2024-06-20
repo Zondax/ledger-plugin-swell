@@ -1,75 +1,40 @@
-# Ledger Plugin Swell
+[![Ensure compliance with Ledger guidelines](https://github.com/LedgerHQ/app-plugin-swell/actions/workflows/guidelines_enforcer.yml/badge.svg?branch=develop)](https://github.com/LedgerHQ/app-plugin-swell/actions/workflows/guidelines_enforcer.yml)
+[![Compilation & tests](https://github.com/LedgerHQ/app-plugin-swell/actions/workflows/build_and_functional_tests.yml/badge.svg?branch=develop)](https://github.com/LedgerHQ/app-plugin-swell/actions/workflows/build_and_functional_tests.yml)
 
-This is a plugin for the Ethereum application which helps parsing and displaying relevant information when signing a Swell smart contract.
 
-## Prerequisite
+# app-plugin-swell
 
-Clone the plugin to a new folder.
+This repo is meant to be a forkable example of a plugin.
 
-```shell
-git clone https://github.com/libertify/ledger-plugin-lens.git
-```
+Plugins are lightweight applications that go hand-in-hand with the Ethereum
+Application on a Nano (S, S plus, X), Stax and Flex devices.
 
-Then in the same folder clone the app-ethereum.
+They allow users to safely interact with smart contracts by parsing the
+transaction data and displaying its content in a human-readable way. This is
+done on a "per contract" basis, meaning a plugin is required for every DApp.
 
-```shell
-git clone --recurse-submodules https://github.com/LedgerHQ/app-ethereum.git     #app-ethereum
-```
+The code has been commented, and special "EDIT THIS" comments indicate where
+developers are expected to adapt the code to their own needs.
+
+It is STRONGLY recommended to follow the
+[plugin guide](https://developers.ledger.com/docs/dapp/embedded-plugin/code-overview/)
+in order to better understand the flow and the context for plugins.
+
+## Ethereum SDK
+
+Ethereum plugins need the [Ethereum SDK](https://github.com/LedgerHQ/ethereum-plugin-sdk).
+You can use the `ETHEREUM_PLUGIN_SDK` variable to point to the directory where you cloned
+this repository. By default, the `Makefile` expects it to be at the root directory of this
+plugin repository by the `ethereum-plugin-sdk` name.
+
+You can see that this [CI](https://github.com/LedgerHQ/app-plugin-swell/blob/develop/.github/workflows/check_sdk.yml) workflow
+verifies that the SDK used is either on the latest `master` or `develop` references. This ensures
+the code is compiled and tested on the latest version of the SDK.
 
 ## Documentation
 
-Need more information about the interface, the architecture, or general stuff about ethereum plugins? You can find more about them in the [ethereum-app documentation](https://github.com/LedgerHQ/app-ethereum/blob/master/doc/ethapp_plugins.adoc).
+The documentation about the plugin shall be added in [PLUGIN_SPECIFICATON.md](https://github.com/LedgerHQ/app-plugin-swell/blob/develop/PLUGIN_SPECIFICATION.md). It shall includes at least the smart contracts and functions supported by the plugin.
 
-## Smart Contracts
+## Formatting
 
-Smart contracts covered by this plugin are:
-
-|  Network | Smart Contract                 | Smart Contract Address |
-| -------- | ------------------------------ | ---------------------- |
-| Ethereum| Deposit Manager & Node Operator Registry    | [0x46DdC39E780088B1B146Aba8cBBe15DC321A1A1d](https://etherscan.io/address/0x46ddc39e780088b1b146aba8cbbe15dc321a1a1d) |
-| Ethereum| rswETH    | [0xFAe103DC9cf190eD75350761e95403b7b8aFa6c0](https://etherscan.io/address/0xFAe103DC9cf190eD75350761e95403b7b8aFa6c0) |
-| Ethereum| swETH    | [0xf951e335afb289353dc249e82926178eac7ded78](https://etherscan.io/address/0xf951e335afb289353dc249e82926178eac7ded78#code) |
-
-
-## Functions implemented:
-
-
-|    Function                   | Selector | Displayed Parameters   | 
-| ---                           | ---      | ---                    |
-|addNewValidatorDetails*    |0x60ec5216|<table> <tbody> <tr><td><code>bytes[] pubkeys</code></td></tr> </tbody> </table>  |
-|addOperator*    |0x54741d6d|<table> <tbody> <tr><td><code>string name</code></td></tr> <tr><td><code>address operator</code></td></tr> <tr><td><code>address reward</code></td></tr>  </tbody> </table>  |
-|deleteActiveValidators*    |0xeda74e71|<table> <tbody> <tr><td><code>bytes[] pubkeys</code></td></tr> </tbody> </table>  |
-|deletePendingValidators*   |0x242eba0e|<table> <tbody> <tr><td><code>bytes[] pubkeys</code></td></tr> </tbody> </table>  |
-|usePubKeysForValidatorSetup*   |0xc3953502|<table> <tbody> <tr><td><code>bytes[] pubkeys</code></td></tr> </tbody> </table>  |
-|deposit     |0xd0e30db0|<table> <tbody> <tr><td><code>amount stake</code></td></tr>  </tbody> </table>  |
-|disableOperator     |0xf56408ed|<table> <tbody> <tr><td><code>address operator</code></td></tr>  </tbody> </table>  |
-|enableOperator   |0xdd307b99|<table> <tbody> <tr><td><code>address operator</code></td></tr>  </tbody> </table>  |
-|initialize   |0xc4d66de8|<table> <tbody> <tr><td><code>address control_manager</code></td></tr>  </tbody> </table>  |
-|updateOperatorControllingAddress    |0x32f73258|<table> <tbody> <tr><td><code>address operator</code></td></tr> <tr><td><code>address new_operator</code></td></tr>  </tbody> </table>  |
-|updateOperatorRewardAddress    |0xe8f28a6c|<table> <tbody> <tr><td><code>address operator</code></td></tr> <tr><td><code>address reward</code></td></tr>  </tbody> </table>  |
-|updateOperatorName*            |0x9f5db69c| <table> <tbody> <tr><td><code>address operator</code></td></tr> <tr><td><code>string name</code></td></tr>  </tbody> </table> |
-|withdrawERC20   |0xf4f3b200|<table> <tbody> <tr><td><code>address token</code></td></tr>  </tbody> </table>  |
-
-*For strings and byte arrays bigger then 32, plugin is showing the first and last 16 bytes in "16...16" format, due to memory limitations.
-For addNewValidatorDetails, deleteActiveValidators, deletePendingValidators, usePubKeysForValidatorSetup, plugin can only verify transactions with 4 pubkeys maximum due to memory limitation.
-
-## Build
-
-To build the plugin, go to your folder with Ethereum app and plugin. Open a new terminal window and run:
-```shell
-sudo docker run --rm -ti -v "$(realpath .):/app" -v "$(realpath app-ethereum):/plugin_dev/app-ethereum" --user $(id -u $USER):$(id -g $USER) ghcr.io/ledgerhq/ledger-app-builder/ledger-app-dev-tools:latest
-```
-
-In the container, go to the plugin repository, then to the tests/ folder.
-```shell
-cd ledger-plugin-swell/tests
-./build_local_test_elfs.sh. 
-```
-
-## Tests
-
-To test the plugin go to the tests folder from the "ledger-plugin-swell" and run the script "test"
-```shell
-cd ledger-plugin-swell/tests         # go to the tests folder in ledger-plugin-swell
-yarn test                       # run the script test
-```
+The C source code is expected to be formatted with `clang-format` 11.0.0 or higher.

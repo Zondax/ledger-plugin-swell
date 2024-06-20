@@ -1,4 +1,4 @@
-#include "swell_plugin.h"
+#include "plugin.h"
 
 // Sets the first screen to display.
 void handle_query_contract_id(ethQueryContractID_t *msg) {
@@ -7,53 +7,14 @@ void handle_query_contract_id(ethQueryContractID_t *msg) {
     // msg->version will be the lower sentence displayed on the screen.
 
     // For the first screen, display the plugin name.
-    strlcpy(msg->name, PLUGIN_NAME, msg->nameLength);
+    strlcpy(msg->name, APPNAME, msg->nameLength);
 
-    switch (context->selectorIndex) {
-        case ADD_NEW_VALIDATOR:
-            strlcpy(msg->version, "Add New Validator Details", msg->versionLength);
-            break;
-        case ADD_OPERATOR:
-            strlcpy(msg->version, "Add Operator", msg->versionLength);
-            break;
-        case DELETE_ACTIVE_VALIDATORS:
-            strlcpy(msg->version, "Delete Active Validators", msg->versionLength);
-            break;
-        case DELETE_PENDING_VALIDATORS:
-            strlcpy(msg->version, "Delete Pending Validators", msg->versionLength);
-            break;
-        case DISABLE_OPERATOR:
-            strlcpy(msg->version, "Disable Operator", msg->versionLength);
-            break;
-        case ENABLE_OPERATOR:
-            strlcpy(msg->version, "Enable Operator", msg->versionLength);
-            break;
-        case INITIALIZE:
-            strlcpy(msg->version, "Initialize", msg->versionLength);
-            break;
-        case UPDATE_OPERATOR_ADDRESS:
-            strlcpy(msg->version, "Update Operator Address", msg->versionLength);
-            break;
-        case UPDATE_OPERATOR_NAME:
-            strlcpy(msg->version, "Update Operator Name", msg->versionLength);
-            break;
-        case UPDATE_OPERATOR_REWARD:
-            strlcpy(msg->version, "Update Operator Reward", msg->versionLength);
-            break;
-        case USE_PUBKEYS_FOR_VALIDATOR:
-            strlcpy(msg->version, "Use Pubkeys For Validators", msg->versionLength);
-            break;
-        case WITHDRAWERC20:
-            strlcpy(msg->version, "WithdrawERC20", msg->versionLength);
-            break;
-        case DEPOSIT:
-            strlcpy(msg->version, "Deposit", msg->versionLength);
-            break;
-        default:
-            PRINTF("Selector index: %d not supported\n", context->selectorIndex);
-            msg->result = ETH_PLUGIN_RESULT_ERROR;
-            return;
+    // EDIT THIS: Adapt the cases by modifying the strings you pass to `strlcpy`.
+    if (context->selectorIndex == SWAP_EXACT_ETH_FOR_TOKENS) {
+        strlcpy(msg->version, "Swap", msg->versionLength);
+        msg->result = ETH_PLUGIN_RESULT_OK;
+    } else {
+        PRINTF("Selector index: %d not supported\n", context->selectorIndex);
+        msg->result = ETH_PLUGIN_RESULT_ERROR;
     }
-
-    msg->result = ETH_PLUGIN_RESULT_OK;
 }
