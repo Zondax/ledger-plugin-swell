@@ -1,14 +1,5 @@
-#include "swell_plugin.h"
-
-static bool find_sel(uint32_t selector, const uint32_t *selectors, size_t n, selector_t *out) {
-    for (selector_t i = 0; i < n; i++) {
-        if (selector == selectors[i]) {
-            *out = i;
-            return true;
-        }
-    }
-    return false;
-}
+#include "plugin_utils.h"
+#include "plugin.h"
 
 // Called once to init.
 void handle_init_contract(ethPluginInitContract_t *msg) {
@@ -22,45 +13,41 @@ void handle_init_contract(ethPluginInitContract_t *msg) {
     // Double check that the `context_t` struct is not bigger than the maximum size (defined by
     // `msg->pluginContextLength`).
     if (msg->pluginContextLength < sizeof(context_t)) {
+        PRINTF("Plugin parameters structure is bigger than allowed size\n");
         msg->result = ETH_PLUGIN_RESULT_ERROR;
         return;
     }
+
     context_t *context = (context_t *) msg->pluginContext;
 
     // Initialize the context (to 0).
     memset(context, 0, sizeof(*context));
 
-    uint32_t selector = U4BE(msg->selector, 0);
-    if (!find_sel(selector, SWELL_SELECTORS, NUM_SELECTORS, &context->selectorIndex)) {
+    size_t index;
+    if (!find_selector(U4BE(msg->selector, 0), SELECTORS, SELECTOR_COUNT, &index)) {
         PRINTF("Error: selector not found!\n");
         msg->result = ETH_PLUGIN_RESULT_UNAVAILABLE;
         return;
     }
+    context->selectorIndex = index;
+    // check for overflow
+    if ((size_t) context->selectorIndex != index) {
+        PRINTF("Error: overflow detected on selector index!\n");
+        msg->result = ETH_PLUGIN_RESULT_ERROR;
+        return;
+    }
 
     // Set `next_param` to be the first field we expect to parse.
+    // EDIT THIS: Adapt the `cases`, and set the `next_param` to be the first parameter you expect
+    // to parse.
     switch (context->selectorIndex) {
-        case ADD_OPERATOR:
-            context->next_param = NAME_OFFSET;
+        case SWAP_EXACT_ETH_FOR_TOKENS:
+            context->next_param = MIN_AMOUNT_RECEIVED;
             break;
-        case DELETE_ACTIVE_VALIDATORS:
-        case DELETE_PENDING_VALIDATORS:
-        case USE_PUBKEYS_FOR_VALIDATOR:
-        case ADD_NEW_VALIDATOR:
-            context->next_param = OFFSET;
+        case BOILERPLATE_DUMMY_2:
+            context->next_param = TOKEN_RECEIVED;
             break;
-        case DISABLE_OPERATOR:
-        case ENABLE_OPERATOR:
-        case INITIALIZE:
-        case WITHDRAWERC20:
-            context->next_param = ADDRESS;
-            break;
-        case UPDATE_OPERATOR_ADDRESS:
-        case UPDATE_OPERATOR_NAME:
-        case UPDATE_OPERATOR_REWARD:
-            context->next_param = OPERATOR;
-            break;
-        case DEPOSIT:
-            break;
+        // Keep this
         default:
             PRINTF("Missing selectorIndex: %d\n", context->selectorIndex);
             msg->result = ETH_PLUGIN_RESULT_ERROR;

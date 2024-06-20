@@ -1,39 +1,21 @@
-#include "swell_plugin.h"
+#include "plugin.h"
 
 void handle_finalize(ethPluginFinalize_t *msg) {
     context_t *context = (context_t *) msg->pluginContext;
 
     msg->uiType = ETH_UI_TYPE_GENERIC;
 
-    // The total number of screen you will need.
-    switch (context->selectorIndex) {
-        case ADD_NEW_VALIDATOR:
-            msg->numScreens = context->tx.body.add_new_validator.n_pubkeys;
-            break;
-        case ADD_OPERATOR:
-            msg->numScreens = 3;
-            break;
-        case DELETE_ACTIVE_VALIDATORS:
-        case DELETE_PENDING_VALIDATORS:
-        case USE_PUBKEYS_FOR_VALIDATOR:
-            msg->numScreens = context->tx.body.pubkey_methods.n_pubkeys;
-            break;
-        case DISABLE_OPERATOR:
-        case ENABLE_OPERATOR:
-        case INITIALIZE:
-        case WITHDRAWERC20:
-        case DEPOSIT:
-            msg->numScreens = 1;
-            break;
-        case UPDATE_OPERATOR_ADDRESS:
-        case UPDATE_OPERATOR_NAME:
-        case UPDATE_OPERATOR_REWARD:
-            msg->numScreens = 2;
-            break;
-        default:
-            msg->result = ETH_PLUGIN_RESULT_ERROR;
-            return;
+    // EDIT THIS: Set the total number of screen you will need.
+    msg->numScreens = 2;
+    // EDIT THIS: Handle this case like you wish to (i.e. maybe no additional screen needed?).
+    // If the beneficiary is NOT the sender, we will need an additional screen to display it.
+    if (memcmp(msg->address, context->beneficiary, ADDRESS_LENGTH) != 0) {
+        msg->numScreens += 1;
     }
+
+    // EDIT THIS: set `tokenLookup1` (and maybe `tokenLookup2`) to point to
+    // token addresses you will info for (such as decimals, ticker...).
+    msg->tokenLookup1 = context->token_received;
 
     msg->result = ETH_PLUGIN_RESULT_OK;
 }
