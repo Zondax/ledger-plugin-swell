@@ -1,6 +1,6 @@
 # Tests
 
-This directory contains non-regression tests for the Swell plugin.
+This directory contains non-regression tests for the swell plugin.
 The tests craft APDUs, send them to the application, and assert the RAPDUs results and the screen content.
 You will need to adapt / enrich the test database with tests relevant to your plugin.
 The presence of functional testing of your plugin and an associated CI is mandatory.
